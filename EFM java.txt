@@ -1,0 +1,72 @@
+package com.example.exercicesrotation;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText edDebit, edDownload, edUpload, edReseaux;
+    ImageView aiguille;
+    float AngleActuelle=0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        edDebit = findViewById(R.id.edDebit);
+        edDownload = findViewById(R.id.edVitesse);
+        edUpload = findViewById(R.id.edUpload);
+        edReseaux = findViewById(R.id.edSociaux);
+
+        aiguille = findViewById(R.id.aiguille);
+
+    }
+
+    public void Rotation(float Ang1, float Ang2){
+        RotateAnimation rotate = new RotateAnimation(Ang1,Ang2,
+                Animation.RELATIVE_TO_SELF,0.73f,
+                RotateAnimation.RELATIVE_TO_SELF,0.5f);
+
+        rotate.setDuration(3000);
+        rotate.setFillAfter(true);
+
+        aiguille.startAnimation(rotate);
+    }
+
+    public void Calculer(float debit) {
+        if(debit<0)
+        {
+            Toast.makeText(this,"Debit Negatif",Toast.LENGTH_SHORT).show();
+            Rotation(AngleActuelle,0);
+            AngleActuelle = 0;
+            return;
+        }
+
+        if(debit>100)
+        {
+            Toast.makeText(this,"Debit > 100",Toast.LENGTH_SHORT).show();
+            Rotation(AngleActuelle,100);
+            AngleActuelle = 100;
+            return;
+        }
+
+        float angle = 100 * debit / 180;
+        Rotation(AngleActuelle,angle);
+        AngleActuelle = angle;
+    }
+
+    public void Effacer(View view) {
+    }
+
+    public void CalculerEvent(View view) {
+    }
+}
